@@ -1,0 +1,81 @@
+﻿@model OnlineStore.Models.Shipping
+@using OnlineStore.Models;
+@{
+	ViewBag.Title = "Details";
+}
+
+<link href="~/Content/order-update.css" rel="stylesheet" />
+
+<h2>Details</h2>
+
+<div class="order-container">
+	<div class="header">
+		<div class="header-order">Shipping Number: @Model.ShppngId</div>
+		<div class="header-date">Created on: @Model.DateCreated</div>
+	</div>
+	<div class="delivery"><h3>Shippin Details </h3></div>
+	<div class=order-description>
+		<div class="item-left">
+			<span>
+				<h5>@Model.Order.FistName @Model.Order.LastName</h5>
+				@*<p class="p-date">@Model.LastName</p>*@
+			</span>
+			<div class="pickup">
+				<h5>@Model.Order.Email</h5>
+				<p>Contact No: @Model.Order.ContactNo</p>
+				<b>Order Total:</b> R @Model.Order.Total
+				<br />
+				<b>Payment Status: </b>@Model.Order.PaymentTransactionId<br />
+				<b>Items Bought: </b>@Model.Order.ItemQty
+
+			</div>
+		</div>
+		<div class="item-center">
+			<b>Delivery address :</b>@Model.Order.Address
+			<br />
+			<b>Shipping Status :</b>@Model.ShippingStatus<br />
+			<b>To delivered ON :</b>@Model.setToDeliveredOn<br />
+			<b>Delivery Code:</b>@Model.ShippingCode
+
+		</div>
+		<div class="item-right">
+			<span>
+				<h5>Driver Info:</h5>
+				<p>Name: @Model.Driver.FirstName</p>
+				<p>Contact No: @Model.Driver.ContactNo</p>
+				<p>Vehicle: @Model.Driver.Vehicle</p>
+				<p>Number Plate: @Model.Driver.CarRegNo</p>
+			</span>
+			<div class="second">
+				@*<input type="submit" value="Update" class="btn btn-success" />*@
+			</div>
+		</div>
+	</div>
+	<a href="#hide1" class="hview" id="hide1">View More Detail</a>
+	<a href="#show1" class="sdetail" id="show1">Hide Details</a>
+	<div class="order-details">
+		<div class="more-titles">
+			<div class="titles-ordered"><h5>Items Ordered</h5></div>
+			<div class="titles-pickup"><h5>Pickup Information</h5></div>
+			<div class="titles-quantity"><h5>Quantity</h5></div>
+			<div class="titles-unit"><h5>Unit Price</h5></div>
+			<div class="titles-total"><h5>Total</h5></div>
+		</div>
+		@foreach (var orderDetail in Model.Order.OrderDetails)
+		{
+			<div class="more-detail">
+				<div class="detail-ordered">
+					<img src="data:image/png;base64,@Convert.ToBase64String(orderDetail.Product.PrdctImage, 0, orderDetail.Product.PrdctImage.Length)" style="width:80px;height:80px" alt="@orderDetail.Product.Name" />
+					<p>@orderDetail.Product.Name</p>
+				</div>
+				<div class="detail-pickup" >
+					<p style="border:2px solid red; padding: 10px; background-color:red;"> @Model.ShippingStatus</p>
+				</div>
+				<div class="detail-quantity">@orderDetail.Quantity</div>
+				<div class="detail-unit">@orderDetail.UnitPrice</div>
+				<div class="detail-total">R @(orderDetail.UnitPrice * orderDetail.Quantity)</div>
+			</div>
+		}
+	</div>
+</div>
+

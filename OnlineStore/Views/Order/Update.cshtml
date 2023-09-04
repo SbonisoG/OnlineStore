@@ -1,0 +1,114 @@
+﻿@model OnlineStore.Models.Order
+@using OnlineStore.Models;
+
+@{
+	ViewBag.Title = "Update";
+	<link href="~/Content/order-update.css" rel="stylesheet" />
+}
+
+
+
+<h2>Update</h2>
+
+@using (Html.BeginForm("Update", "Order", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	<div class="order-container">
+		<div class="header">
+			<div class="header-order">Order Number: @Model.OrderId</div>
+			<div class="header-date">Ordered on: @Model.dateTime</div>
+		</div>
+		<div class="delivery"><h3>Delivery </h3></div>
+		<div class=order-description>
+			<div class="item-left">
+				<span>
+					<h5>@Model.FistName @Model.LastName</h5>
+					@*<p class="p-date">@Model.LastName</p>*@
+				</span>
+				<div class="pickup">
+					<h5>@Model.Email</h5>
+					<p>@Model.ContactNo</p>
+					<p>@Model.HasBeenShipped</p>
+				</div>
+			</div>
+			<div class="item-center">
+				<b>Delivery address :</b> @Html.EditorFor(m => m.Address, new { @class = "border w-100 p-2 bg-white text-capitalize" })
+				<br />
+				<p></p>
+				<input type="submit" value="Update" class="btn btn-success" />
+			</div>
+			<div class="item-right">
+				<span>
+					<h5>Order Total:</h5>
+					<p>R @Model.Total</p>
+				</span>
+				<div class="second">
+					<h5>@Model.PaymentTransactionId</h5>
+				</div>
+			</div>
+		</div>
+		<a href="#hide1" class="hview" id="hide1">View More Detail</a>
+		<a href="#show1" class="sdetail" id="show1">Hide Details</a>
+		<div class="order-details">
+			<div class="more-titles">
+				<div class="titles-ordered"><h5>Items Ordered</h5></div>
+				<div class="titles-pickup"><h5>Pickup Information</h5></div>
+				<div class="titles-quantity"><h5>Quantity</h5></div>
+				<div class="titles-unit"><h5>Unit Price</h5></div>
+				<div class="titles-total"><h5>Total</h5></div>
+			</div>
+			@foreach (var orderDetail in Model.OrderDetails)
+			{
+				<div class="more-detail">
+					<div class="detail-ordered">
+						<img src="data:image/png;base64,@Convert.ToBase64String(orderDetail.Product.PrdctImage, 0, orderDetail.Product.PrdctImage.Length)" style="width:80px;height:80px" alt="@orderDetail.Product.Name" />
+						<p>@orderDetail.Product.Name</p>
+					</div>
+					<div class="detail-pickup">
+						Will be ready for pickup between Fri,
+					</div>
+					<div class="detail-quantity">@orderDetail.Quantity</div>
+					<div class="detail-unit">@orderDetail.UnitPrice</div>
+					<div class="detail-total">R @(orderDetail.UnitPrice * orderDetail.Quantity)</div>
+				</div>
+			}
+		</div>
+	</div>
+}
+
+
+
+@*<div class="container">
+		<div class="prsnl-info">
+			<p>@Model.FistName</p>
+			<p>@Model.LastName</p>
+			<p>@Model.ContactNo</p>
+			<p>@Model.Email</p>
+
+		</div>
+		<div crt-info>
+			<p>@Model.dateTime</p>
+			<p>@Model.Total</p>
+			<table>
+				<tr>
+					<th>Product ID</th>
+					<th>Quantity</th>
+					<th>Unit Price</th>
+				</tr>
+				@foreach (var orderDetail in Model.OrderDetails)
+				{
+					<tr>
+						<td>@orderDetail.Product.Name</td>
+						<td>@orderDetail.Quantity</td>
+						<td>@orderDetail.UnitPrice</td>
+					</tr>
+				}
+			</table>
+
+		</div>
+		<div class="dlvry-info">
+			<strong>Status :</strong> @Model.HasBeenShipped
+			<br /><b>Delivery address :</b> @Html.EditorFor(m => m.Address, new { @class = "border w-100 p-2 bg-white text-capitalize" })
+		</div>
+		<input type="submit" value="Update" class="btn btn-success" />
+	</div>*@

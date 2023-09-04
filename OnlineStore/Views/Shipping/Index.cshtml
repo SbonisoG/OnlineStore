@@ -1,0 +1,137 @@
+﻿@model IEnumerable<OnlineStore.Models.Shipping>
+@using OnlineStore.Models
+@{
+	ViewBag.Title = "Index";
+}
+
+<style>
+	table a:link {
+		color: #666;
+		font-weight: bold;
+		text-decoration: none;
+	}
+
+	table a:visited {
+		color: #999999;
+		font-weight: bold;
+		text-decoration: none;
+	}
+
+	table a:active,
+	table a:hover {
+		color: #bd5a35;
+		text-decoration: underline;
+	}
+
+	table {
+		width: 1200px;
+		margin: 10px auto;
+		box-shadow: none;
+		border: 1px solid #E6E6E6;
+		padding: 0;
+		background-color: #FFFFFF;
+		box-sizing: border-box;
+		display: table;
+	}
+
+		table th {
+			text-align: center;
+			background: #34495e;
+			color: #FFF;
+			text-shadow: 0px 01px 0px #000;
+			font-size: 15px;
+			height: 42px;
+			border-radius: 0 !important;
+			border-left: 1px solid whitesmoke;
+			box-sizing: border-box;
+		}
+
+			table th:first-child {
+				border-left: 0;
+			}
+
+
+		table tr {
+			text-align: center;
+		}
+
+		table td:first-child {
+			box-sizing: border-box;
+			border-left: 0;
+		}
+
+		table td {
+			padding: 9px;
+			border-top: 1px solid #ffffff;
+			border-bottom: 1px solid #e0e0e0;
+			border-left: 1px solid #e0e0e0;
+			background: white;
+		}
+
+		table tr:nth-child(odd) td {
+			background: #fcfaf5;
+		}
+
+		table tr:last-child td {
+			border-bottom: 0;
+		}
+
+		table tr:hover td {
+			background: #fffcf5;
+			background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+			background: -moz-linear-gradient(top, #f2f2f2, #f0f0f0);
+		}
+</style>
+
+<h2>Index</h2>
+
+<table class="table-responsive" cellspacing='0'>
+	<!-- cellspacing='0' is important, must stay -->
+
+	<thead>
+		<tr>
+			<th>Shipping ID</th>
+			<th>Customer Email</th>
+			<th>Customer FullName</th>
+			<th>Delivery Address</th>
+			<th>Date</th>
+			<th>To be Delivered on</th>
+			@*<th>Driver Name</th>
+				<th>Driver ContactNo.</th>*@
+			<th>Shipping Status</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var order in Model)
+		{
+			<tr>
+				<td>@order.ShppngId</td>
+				<td>@order.Order.Email</td>
+				<td>@(order.Order.FistName + " " + order.Order.LastName)</td>
+				<td>@order.Order.Address</td>
+				<td>@order.DateCreated</td>
+				<td>@order.setToDeliveredOn</td>
+				@*<td>@order.Driver.FirstName</td>
+					<td>@order.Driver.ContactNo</td>*@
+				<td>@order.ShippingStatus</td>
+
+				@if (order.DriverId == null)
+				{
+					<td>@Html.ActionLink("Assign Driver", "Assign", new { id = order.ShppngId })</td>
+				}
+				else if (order.setToDeliveredOn == null)
+				{
+					<td>@Html.ActionLink("Set Delivery Date", "SetDelivery", new { id = order.ShppngId })</td>
+				}
+				else
+				{
+					<td>@Html.ActionLink("View", "Details", new { id = order.ShppngId })</td>
+				}
+			</tr>
+		}
+	</tbody>
+	<!-- Table Body -->
+
+</table>

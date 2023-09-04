@@ -1,0 +1,82 @@
+﻿@model IEnumerable<OnlineStore.Models.Product>
+
+@{
+	ViewBag.Title = "Index";
+}
+<link href="~/Content/Style.css" rel="stylesheet" />
+
+<header style="display:flex;justify-content:space-between;margin:20px 0px 20px 0">
+	<h2>Products</h2>
+
+	<form action="" class="search-bar">
+		<input type="search" name="search" pattern=".*\S.*" required>
+		<button class="search-btn" type="submit">
+			<span>Search</span>
+		</button>
+	</form>
+</header>
+<hr />
+
+
+
+
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-hover" style="font-size:14px">
+	<thead class="table-dark">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Category.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Description)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Quantity)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Price)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PrdctImage)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody class="table-group-divider table-divider-color">
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Category.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Quantity)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				<td>
+					<img src="data:image/png;base64,@Convert.ToBase64String(item.PrdctImage, 0, item.PrdctImage.Length)" style="width: 70px; height: 70px" alt="image description" />
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+					@Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+

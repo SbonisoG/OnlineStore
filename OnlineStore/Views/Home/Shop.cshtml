@@ -1,0 +1,29 @@
+﻿
+@{
+	ViewBag.Title = "Shop";
+}
+
+<head>
+	<link href="~/Content/Style.css" rel="stylesheet" />
+</head>
+<div>
+	<hr />
+
+	<div class="products">
+		@foreach (var item in Model)
+		{
+			<div class="card">
+				<div class="img">
+					<img src="data:image/png;base64,@Convert.ToBase64String(item.PrdctImage, 0, item.PrdctImage.Length)" alt="image description" />
+				</div>
+				<div class="info">
+					<strong>@item.Name</strong>
+					<p>R @item.Price</p>
+				</div>
+				<a href="@Url.Action("AddToCart","Cart", new { id = item.ProductId})" style="--clr:#1e9bff" ;><span>Add To Cart</span><i></i></a>
+
+			</div>
+
+		}
+	</div>
+</div>

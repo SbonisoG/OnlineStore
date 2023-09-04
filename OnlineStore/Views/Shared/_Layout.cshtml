@@ -1,0 +1,131 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+	<title>@ViewBag.Title - My ASP.NET Application</title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
+	<link href="~/Content/Css/Navbar.css" rel="stylesheet" />
+</head>
+<body>
+	<nav>
+		<ul>
+			<h2 class="logo">Online<span> Store</span></h2>
+		</ul>
+		<ul>
+			<li><a href="@Url.Action("Index", "Home")">Home</a></li>
+			<li><a href="@Url.Action("Shop", "Home")">Shop</a></li>
+			@if (User.IsInRole("Customer"))
+			{
+				<li><a href="@Url.Action("Index","Cart")">Cart</a></li>
+				<li class="dropdown">
+					<a href="javascript:void(0)" class="dropbtn">My Order</a>
+					<div class="dropdown-content">
+						<a href="@Url.Action("MyOrderHistory","Order")">Order History</a>
+						<a href="@Url.Action("ActiveOrder","Order")">Active Order</a>
+						<a href="#">Link 3</a>
+					</div>
+				</li>
+
+			}
+			@if (User.IsInRole("Assistant"))
+			{
+				<li class="dropdown">
+					<a href="javascript:void(0)" class="dropbtn">Manage stock</a>
+					<div class="dropdown-content">
+						<a href="@Url.Action("Index","Products")">All Stock</a>
+						<a href="@Url.Action("Index","Categories")">Category</a>
+						<a href="#">Link 3</a>
+					</div>
+				</li>
+
+				<li class="dropdown">
+					<a href="javascript:void(0)" class="dropbtn">All Orders</a>
+					<div class="dropdown-content">
+						<a href="@Url.Action("Index","Order")">Order History</a>
+						<a href="@Url.Action("ActiveOrder","Order")">Active Order</a>
+						<a href="#">Link 3</a>
+					</div>
+				</li>
+
+				<li class="dropdown">
+					<a href="javascript:void(0)" class="dropbtn">All Deliveries</a>
+					<div class="dropdown-content">
+						<a href="@Url.Action("Index","Shipping")">Delivery History</a>
+						<a href="@Url.Action("ActiveDeliveries","Shipping")">Active Deliveries</a>
+						<a href="#">Link 3</a>
+					</div>
+				</li>
+
+			}
+			@if (User.IsInRole("Admin"))
+			{
+				<li class="dropdown">
+					<a href="javascript:void(0)" class="dropbtn">Assistant</a>
+					<div class="dropdown-content">
+						<a href="@Url.Action("AssistantIndex","Account")">Assistants List</a>
+						<a href="@Url.Action("Assistants","Account")">Assistant Registration</a>
+						<a href="#">Link 3</a>
+					</div>
+				</li>
+
+				<li class="dropdown">
+					<a href="javascript:void(0)" class="dropbtn">Drivers</a>
+					<div class="dropdown-content">
+						<a href="@Url.Action("DriverIndex","Account")">Drivers List</a>
+						<a href="@Url.Action("Driver","Account")">Driver Registration</a>
+						<a href="#">Link 3</a>
+					</div>
+				</li>
+
+			}
+			@if (User.IsInRole("Driver"))
+			{
+				<li class="dropdown">
+					<a href="javascript:void(0)" class="dropbtn">My Deliveries</a>
+					<div class="dropdown-content">
+						<a href="@Url.Action("Index", "Shipping")">Delivery History</a>
+						<a href="@Url.Action("ActiveDeliveries", "Shipping")">Active Deliveries</a>
+						<a href="#">Link 3</a>
+					</div>
+				</li>
+			}
+		</ul>
+
+		@if (Request.IsAuthenticated)
+		{
+			using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+			{
+				@Html.AntiForgeryToken()
+
+				<ul>
+					<li>
+						@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+					</li>
+					<li class="button"><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+				</ul>
+			}
+		}
+		else
+		{
+			<ul>
+				<li class="button"><a href="@Url.Action("Register", "Account")">Sign Up</a></li>
+				<li class="button"><a href="@Url.Action("Login", "Account")">Login</a></li>
+			</ul>
+		}
+	</nav>
+	<div class="container">
+		@RenderBody()
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+		</footer>
+	</div>
+
+
+	@RenderSection("scripts", required: false)
+</body>
+</html>

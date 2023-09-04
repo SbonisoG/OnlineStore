@@ -1,0 +1,68 @@
+﻿@using OnlineStore.Models
+@{
+	ViewBag.Title = "Index";
+}
+
+<link href="~/Content/Css/Cart.css" rel="stylesheet" />
+
+
+<h2>Your Cart</h2>
+
+@if ((List<CartItem>)Session["cart"] == null)
+{
+	<div class="alert alert-warning d-flex align-items-center" role="alert">
+		<svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+		<div style="text-align:center">
+			CART IS EMPTY! GO SHOPPING
+		</div>
+	</div>
+}
+else
+{
+	<table class="table table-bordered table-hover">
+		<tr>
+			<th>Product Details</th>
+			<th>Product Quantity</th>
+			<th>Total Amount </th>
+		</tr>
+
+		@foreach (var item in (List<CartItem>)Session["cart"])
+		{
+			<tr>
+				<td>
+					<div class="cart-info">
+						<img src="data:image/png;base64,@Convert.ToBase64String(item.Product.PrdctImage, 0, item.Product.PrdctImage.Length)" alt="@item.Product.Name" />
+						<div>
+							<p>@item.Product.Name</p>
+							<small>R @item.Product.Price</small>
+							<br />
+							<a href="@Url.Action("RemoveFromCart", "Cart", new { id = item.Product.ProductId })" style="--clr:#ff1867"><span>Remove</span><i></i></a>
+						</div>
+					</div>
+				</td>
+				<td>@item.Qty</td>
+				<td>R @(item.Product.Price * item.Qty)</td>
+			</tr>
+		}
+
+	</table>
+
+	<div class="cart-block-right">
+		<div class="cart-page-discount">
+			<div class="cart-header-footer cart-footer-discount">
+				<input class="cart-page-input" placeholder="Discount Code" />
+				<a href="#" class="cart-header-cta cart-cta" target="_blank">Apply</a>
+			</div>
+		</div>
+		<div class="cart-table-bill">
+			@{
+				List<CartItem> cart = (List<CartItem>)Session["cart"];
+				var total = (from data in cart select data.Product.Price * data.Qty).Sum();
+			}
+			<div class="bill-total bold-text">Total:R @total</div>
+		</div>
+		<div class="cart-header-footer">
+			<a href="@Url.Action("GetOrder","Cart")" class="cart-header-cta red-bg" target="_blank"  style="background-color:dodgerblue">Proceed to Checkout</a>
+		</div>
+	</div>
+}

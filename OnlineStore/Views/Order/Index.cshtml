@@ -1,0 +1,112 @@
+﻿@model IEnumerable<OnlineStore.Models.Order>
+@using OnlineStore.Models
+@{
+	ViewBag.Title = "Index";
+}
+
+
+<h2>Index</h2>
+
+
+<table class="table align-middle mb-0 bg-white">
+	<!-- cellspacing='0' is important, must stay -->
+
+	<thead class="bg-light">
+		<tr>
+			<th>Customer</th>
+			<th>Order</th>
+			<th>Status</th>
+			<th>Total Amount</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var order in Model)
+		{
+			<tr>
+				<td>
+					<div class="d-flex align-items-center">
+						<img src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+							 alt=""
+							 style="width: 45px; height: 45px"
+							 class="rounded-circle" />
+						<div class="ms-3">
+							<p class="fw-bold mb-1">@(order.FistName + " " + order.LastName)</p>
+							<p class="text-muted mb-0">@order.Email</p>
+						</div>
+					</div>
+				</td>
+				<td>
+					<p class="fw-normal mb-1">@order.Address</p>
+					<p class="text-muted mb-0">@order.dateTime</p>
+					<p class="text-muted mb-0">Items No: @order.ItemQty</p>
+				</td>
+				<td>
+					<span class="badge badge-success rounded-pill d-inline" style="color:green;background-color:lightgreen">@order.HasBeenShipped</span>
+				</td>
+				<td>R @order.Total</td>
+				<td style="align-items:center;">
+					<a href="@Url.Action("ViewOrder", "Order", new { id = order.OrderId })"
+					   class="btn btn-link btn-sm btn-rounded"
+					   style="text-decoration:none;padding:10px 20px 10px 20px;background: #ea1538;color:white;border-radius:20px;">View</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+	<!-- Table Body -->
+
+</table>
+
+@*<table>
+	<thead>
+		<tr>
+			<th>Order ID</th>
+			<th>Customer Email</th>
+			<th>Address</th>
+			<th>Order Date</th>
+			<th>Order Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var order in Model)
+		{
+			<tr>
+				<td>@order.OrderId</td>
+				<td>@order.Email</td>
+				<td>@order.Address</td>
+				<td>@order.dateTime</td>
+				<td>@order.Total</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<table>
+						<thead>
+							<tr>
+								<th>Product ID</th>
+								<th>Quantity</th>
+								<th>Unit Price</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var orderDetail in order.OrderDetails)
+							{
+								<tr>
+									<td>@orderDetail.Product.Name</td>
+									<td>@orderDetail.Quantity</td>
+									<td>
+										@orderDetail.UnitPrice
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</td>
+				<td>
+				<td>@Html.ActionLink("Update", "Update", new { id = order.OrderId })</td>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>*@

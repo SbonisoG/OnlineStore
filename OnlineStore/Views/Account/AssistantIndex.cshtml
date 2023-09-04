@@ -1,0 +1,76 @@
+﻿@model IEnumerable<OnlineStore.Models.Users.Assistant>
+
+@{
+	ViewBag.Title = "AssistantIndex";
+}
+
+<h2>AssistantIndex</h2>
+
+<p>
+	@Html.ActionLink("Create New", "Assistant")
+</p>
+<table class="table">
+	<tr>
+		<th class="table-dark">
+			@Html.DisplayNameFor(model => model.FirstName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.LastName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ContactNo)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Gender)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Email)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.AssistantImage)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Password)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ConfirmPassword)
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.FirstName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.LastName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ContactNo)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Gender)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Email)
+			</td>
+			<td>
+				<img src="data:image/png;base64,@Convert.ToBase64String(item.AssistantImage, 0, item.AssistantImage.Length)" style="width: 80px; height:80px" />
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Password)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ConfirmPassword)
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.AssistantID }) |
+				@Html.ActionLink("Details", "Details", new { id = item.AssistantID }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.AssistantID })
+			</td>
+		</tr>
+	}
+
+</table>
